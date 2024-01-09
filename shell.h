@@ -1,96 +1,76 @@
-#ifndef _SHELL_H_
-#define _SHELL_H_
-#define _GNU_SOURCE
+#ifndef SHELL_H
+#define SHELL_H
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
+#include <unistd.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <sys/stat.h>
-#include <limits.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <stdarg.h>
-#include <ctype.h>
 
-/*macros*/
-#define PATH_MAX_LENGTH 4096
-#define PATH_SEPARATOR ":"
+#define BUFFER 1024
+#define TRUE 1
 #define PROMPT "$ "
-#define MAX_TOKENS 1024
-#define BUFFER_SIZE 1024
+/* error strings */
+#define ERR_MALLOC "Unable to malloc space\n"
+#define ERR_FORK "Unable to fork and create child process\n"
+#define ERR_PATH "No such file or directory\n"
+extern char **environ;
 
-/* prompt.c */
-void prompt(void);
+/**
+ * struct list_s - linked list of variables
+ * @value: value
+ * @next: pointer to next node
+ *
+ * Description: generic linked list struct for variables.
+**/
+typedef struct list_s
+{
+	char *value;
+	struct list_s *next;
+} list_s;
 
-/* get_input.c */
-char *get_input(void);
-void free_last_input(void);
-/* get_line.c*/
-void *get_line(void);
+/**
+ * struct built_s - linked list of builtins
+ * @name: name of builtin
+ * @p: pointer to function
+ *
+ * Description: struct for builtin functions.
+**/
+typedef struct built_s
+{
+	char *name;
+	int (*p)(void);
+} built_s;
 
-/* built-in funcs */
-int check_for_builtin(char **args);
-int execute_buitlin(char *cmd, char **args);
-void shell_help(void);
-void shell_exit(char **args);
-void shell_cd(char **args);
-int shell_setenv(char **args);
-int shell_unsetenv(char **args);
-int shell_env(void);
-int shell_clear(char **args);
+void prompt(int fd, struct stat buf);
+char *get_line(FILE *fp);
+char **tokenizer(char *str);
+char *which_path(char *command, char *fullpath, char *path);
+int child(char *fullpath, char **tokens);
+void errors(int error);
 
-/* signal_handler.c */
-void handle_sigint(int sig);
-void handle_sigquit(int sig);
-void handle_sigstp(int sig);
-
-/* execute.c */
-int execute(char **args);
-
-/* parser.c */
-char **tokenize(char *str, const char *delim);
-char **tokenize_input(char *input);
-
-/* get_env.c */
-char *_getenv(const char *name);
-
-/* get_path.c */
-char *get_path(void);
-
-/* find_in_path.c */
-char *find_in_path(char *command);
-
-/* free.c */
-void free_error(char **argv, char *arg);
-void free_tokens(char **ptr);
-void free_path(void);
-
-/* error.c */
+/* utility functions */
 void _puts(char *str);
-void _puterror(char *err);
+int str_len(char *s);
+int str_cmp(char *name, char *variable, unsigned int length);
+int str_ncmp(char *name, char *variable, unsigned int length);
+char *str_cpy(char *dest, char *src);
 
-/* utils_funcs1.c */
-int _strlen(const char *);
-int _strcmp(const char *s1, const char *s2);
-int _strncmp(const char *s1, const char *s2, size_t n);
-char *_strstr(char *haystack, char *needle);
-char *_strchr(char *s, char c);
+/* prototypes for builtins */
+int shell_env(void);
+int shell_exit(void);
+int buiilt_in_execu(char **tokens);
+int shell_no_builtins(built_s builtin[]);
 
-/* utils_funcs2.c */
-char *_strcpy(char *, char *);
-char *_strcat(char *, const char *);
-char *_strdup(const char *);
-int _putchar(char);
-unsigned int _strspn(char *s, char *accept);
+/* prototypes for the helper functions for path linked list */
+char *get_env(const char *name);
+char **copy_env(char **environ_copy, unsigned int environ_length);
+list_s *pathlist(char *variable, list_s *head);
 
-/* utils_funcs3.c */
-int _atoi(const char *str);
-char *_memset(char *, char, unsigned int);
-char *_memcpy(char *dest, char *src, unsigned int n);
-void *_realloc(void *, unsigned int, unsigned int);
-void *_calloc(unsigned int nmemb, unsigned int size);
+/* prototypes for free functions */
+void free_all(char **tokens, char *path, char *line, char *fullpath, int flag);
+void free_dp(char **array, unsigned int length);
 
-#endif
+#endif /* SHELL_H */
