@@ -54,6 +54,11 @@ void handle_printenv(char **cmd, int *status);
 void handle_builtin(char **cmd, char **argv, int *status, int index);
 int is_builtin(char *cmd);
 
+/**/
+void cd_builtin(char **cmd, int *status);
+
+/**/
+void handle_variables(char **cmd, int *status); 
 
 
 #endif
