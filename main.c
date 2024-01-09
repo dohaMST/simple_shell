@@ -32,6 +32,7 @@ int main(int ac, char **argv)
 			handle_builtin(cmd, argv, &status, idx);
 		else
 			status = execute_handler(cmd, argv, idx);
+		write(STDOUT_FILENO, "$\n", 2);
 	}
 
 
