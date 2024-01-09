@@ -1,42 +1,40 @@
 #include "shell.h"
 
 /**
- * main - a main function for simple shell project
- * @ac: the count of arguments
- * @argv: the array of arguments
- * Return: 0 for success
+ * main - implements a simple shell
+ *
+ * Return: EXIT_SUCCESS.
  */
-
-int main(int ac, char **argv)
+int main(void)
 {
-	char *line = NULL;
-	char **cmd = NULL;
-	int status = 0, idx = 0;
-	(void) ac;
+	char *input;
+	char **args;
+	int status;
 
-	while (1)
-	{
-		line = read_line();
-		if (line == NULL)/*reached the EOF ctr+D*/
+	/* Register signal handlers */
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, handle_sigquit);
+	signal(SIGTSTP, handle_sigstp);
+
+	do {
+		input = get_input();
+		if (!input || !*input)/* EOF detected, exit the loop */
+			break;
+
+		args = tokenize_input(input);
+		if (!args || !*args)
 		{
-			if (isatty(STDIN_FILENO))
-				write(STDOUT_FILENO, "\n", 1);
-			return (status);
-		}
-
-		idx++;
-
-		cmd = tokenizer(line);
-		if (!cmd)
+			free(input);
+			free_tokens(args);
 			continue;
+		}
+		status = execute(args);
+		free(input);
+		free_tokens(args);
 
-		if (is_builtin(cmd[0]))
-			handle_builtin(cmd, argv, &status, idx);
+		/* Set status to 1 to continue the loop */
+		status = 1;
+	} while (status);
 
-		else
-			status = _execute(cmd, argv, idx);
-	}
-
-
-	return (0);
+	return (EXIT_SUCCESS);
 }

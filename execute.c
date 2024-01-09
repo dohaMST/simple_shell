@@ -1,40 +1,50 @@
 #include "shell.h"
 
 /**
- * _execute - a function to execute cmd
- * @cmd: para1
- * @argv: para2
- * @idx: para3
- * Return: int
+ * execute - Execute a command with arguments.
+ * @argv: An array of strings containing the command and its arguments.
+ *
+ * Return: The exit status of the executed command.
  */
-int _execute(char **cmd, char **argv, int idx)
+int execute(char **argv)
 {
-	pid_t child;
-	char *full_cmd;
-	int status;
+	pid_t id;
+	int status = 0;
+	char *cmd_path, *envp[2];
 
-	full_cmd = _getpath(cmd[0]);
+	if (argv == NULL || *argv == NULL)
+		return (status);
+	if (check_for_builtin(argv))
+		return (status);
 
-	if (!full_cmd)
+	id = fork();
+	if (id < 0)
 	{
-		print_error(argv[0], cmd[0], idx);
-		freeArr2D(cmd);
-		return (127);
+		_puterror("fork");
+		return (1);
 	}
-
-	child = fork();
-	if (child == 0)
+	if (id == -1)
+		perror(argv[0]), free_tokens(argv), free_last_input();
+	if (id == 0)
 	{
-		if (execve(full_cmd, cmd, environ) == -1)
+		envp[0] = get_path();
+		envp[1] = NULL;
+		cmd_path = NULL;
+		if (argv[0][0] != '/')
+			cmd_path = find_in_path(argv[0]);
+		if (cmd_path == NULL)
+			cmd_path = argv[0];
+		if (execve(cmd_path, argv, envp) == -1)
 		{
-			free(full_cmd), full_cmd = NULL;
-			freeArr2D(cmd);
+			perror(argv[0]), free_tokens(argv), free_last_input();
+			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		waitpid(child, &status, 0);
-		freeArr2D(cmd);
+		do {
+			waitpid(id, &status, WUNTRACED);
+		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
-	return (WEXITSTATUS(status));
+	return (status);
 }
