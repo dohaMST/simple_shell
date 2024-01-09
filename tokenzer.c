@@ -1,19 +1,19 @@
 #include "shell.h"
 
 /**
- * arrOfCmd - Function to tokenize a string based on whitespace characters.
- * @line: The string we wanna be tokenized.
+ * tokenizer - Function to tokenize a string based on whitespace characters.
+ * @line: The input string to be tokenized.
+ *
  * Return: An array of tokens (strings).
  */
-char **arrOfCmd(char *line)
+char **tokenizer(char *line)
 {
 	char **cmd = NULL;
-	char *token = strtok(strdup_handler(line), " \t\n");
+	char *token = strtok(strdup(line), " \t\n");
 	int cpt = 0, i = 0;
 
 	if (!line)
 		return (NULL);
-
 	while (token)
 	{
 		cpt++;
@@ -29,10 +29,11 @@ char **arrOfCmd(char *line)
 	token = strtok(line, " \t\n");
 	while (token)
 	{
-		cmd[i++] = strdup_handler(token);
+		cmd[i++] = strdup(token);
 		token = strtok(NULL, " \t\n");
 	}
 	free(line);
 	cmd[i] = NULL;
 	return (cmd);
 }
+

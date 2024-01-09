@@ -23,16 +23,18 @@ int main(int ac, char **argv)
 				write(STDOUT_FILENO, "\n", 1);
 			return (status);
 		}
+
 		idx++;
-		cmd = arrOfCmd(line);
+
+		cmd = tokenizer(line);
 		if (!cmd)
 			continue;
 
 		if (is_builtin(cmd[0]))
 			handle_builtin(cmd, argv, &status, idx);
+
 		else
-			status = execute_handler(cmd, argv, idx);
-		write(STDOUT_FILENO, "$\n", 2);
+			status = _execute(cmd, argv, idx);
 	}
 
 
