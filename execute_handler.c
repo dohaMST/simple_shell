@@ -37,7 +37,7 @@ int execute_handler(char **cmd, char **argv, int idx)
 		{
 			free(full_cmd);
 			freeArr(cmd);
-			exit(EXIT_FAILURE);
+			/*exit(EXIT_FAILURE);*/
 		}
 	}
 	else
