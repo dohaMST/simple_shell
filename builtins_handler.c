@@ -35,10 +35,10 @@ void handle_builtin(char **cmd, char **argv, int *status, int index)
 {
 	(void)argv;
 	(void)index;
-	
+
 	/* Handle variable replacement*/
 	if (strcmp(cmd[0], "echo") == 0)
-        	handle_variables(cmd, status);
+		handle_variables(cmd, status);
 
 	/* Check if the command is "exit" */
 	if (strcmp_handler(cmd[0], "exit") == 0)
@@ -48,6 +48,6 @@ void handle_builtin(char **cmd, char **argv, int *status, int index)
 		handle_printenv(cmd, status);
 	/* checks if the command is "cd" */
 	else if (strcmp_handler(cmd[0], "cd") == 0)
-			cd_builtin(cmd, status);
+		cd_builtin(cmd, status);
 }
 
