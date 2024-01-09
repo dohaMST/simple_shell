@@ -99,17 +99,17 @@ int strcmp_handler(char *str1, char *str2)
  * @src: source String
  * Return: new pointer
 */
-char *strcat_handler(char *dest, char *src)
-{
-	char *p = dest;
 
-	while (*p)
+void strcat_handler(char *dest, char *src)
+{
+	int size = strlen_handler(dest);
+	size_t i = 0;
+
+	while (src[i])
 	{
-		*p = *src;
-		p++;
-		src++;
+		dest[size + i] = src[i];
+		i++;
 	}
 
-	*p = *src;
-	return (dest);
+	dest[size + i] = '\0';
 }

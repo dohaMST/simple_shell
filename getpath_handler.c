@@ -28,7 +28,7 @@ char *getpath_handler(char *cmd)
 	dir = strtok(p_env, ":");
 	while (dir)
 	{
-		full_cmd = malloc(strlen_handler(dir) + strlen_handler(cmd) + 2);
+		full_cmd = malloc(strlen(dir) + strlen_handler(cmd) + 2);
 		if (full_cmd)
 		{
 			/* Construct the full path by combining directory and command */

@@ -19,7 +19,7 @@ char *getenv_handler(char *x)
 		/* Extract the key (variable name) from the environment variable */
 		key = strtok(tmp, "=");
 		/* Check if the key matches the desired variable name */
-		if (strcmp_handler(key, x) == 0)
+		if (strcmp(key, x) == 0)
 		{
 			/* If found, extract the value and duplicate it */
 			val = strtok(NULL, "\n");

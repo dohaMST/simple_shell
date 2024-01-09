@@ -22,9 +22,7 @@ int strlen_handler(char *str);
 char *strdup_handler(char *str);
 char *strcpy_handler(char *dest, char *src);
 int strcmp_handler(char *str1, char *str2);
-char *strcat_handler(char *des, char *src);
-
-
+void strcat_handler(char *dest, char *src);
 /*string_tools2.c*/
 void revstr_handler(char *str, int len);
 char *handle_itoa(int x);
