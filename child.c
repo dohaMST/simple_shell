@@ -27,7 +27,7 @@ int child(char *fullpath, char **tokens)
 	if (child_pid == -1)
 	{
 		/* If fork fail print an error and exit with failure status */
-		write(STDERR_FILENO, ERR_FORK, strlen(ERR_FORK));
+		errors(1);
 		exit(EXIT_FAILURE);
 	}
 	if (child_pid == 0)

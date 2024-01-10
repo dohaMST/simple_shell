@@ -26,14 +26,14 @@ char *get_env(const char *name)
 	env_copy = NULL;
 	env_copy = copy_env(env_copy, env_length);
 	/* Calculate the length of the input environment variable name */
-	length = strlen((char *)name);
+	length = str_len((char *)name);
 	i = 0;
 	/* Loop through the copied environment variables */
 	while (env_copy[i] != NULL)
 	{
 		variable = env_copy[i];
 		/* Compare the input name with the current environment variable */
-		compare = strncmp((char *)name, variable, length);
+		compare = str_ncmp((char *)name, variable, length);
 		/* If there is a match */
 		if (compare == 1)
 		{
@@ -43,20 +43,20 @@ char *get_env(const char *name)
 			/* Handle the case where the value is NULL */
 			if (value == NULL)
 			{
-				write(STDERR_FILENO, ERR_PATH, strlen(ERR_PATH));
+				errors(4);
 				exit(EXIT_FAILURE);
 			}
 			/* Calculate the length of the value */
-			pa_length = strlen(value);
+			pa_length = str_len(value);
 			/* Allocate memory for the path variable */
 			path = malloc(sizeof(char) * pa_length + 1);
 			if (path == NULL)
 			{
-				write(STDERR_FILENO, ERR_MALLOC, strlen(ERR_MALLOC));
+				errors(3);
 				return (NULL);
 			}
 			/* Copy the value to the newly allocated memory */
-			path = strcpy(path, value);
+			path = str_cpy(path, value);
 			/* Free the copied environment variables */
 			free_dp(env_copy, env_length);
 			/* Return the path variable */
@@ -87,7 +87,7 @@ char **copy_env(char **env_copy, unsigned int env_length)
 	env_copy = malloc(sizeof(char **) * (env_length));
 	if (env_copy == NULL)
 	{
-		write(STDERR_FILENO, ERR_MALLOC, strlen(ERR_MALLOC));
+		errors(3);
 		return (NULL);
 	}
 	i = 0;
@@ -96,43 +96,18 @@ char **copy_env(char **env_copy, unsigned int env_length)
 	{
 		variable = environ[i];
 		/* Calculate the length of the current environment variable */
-		variable_length = strlen(variable);
+		variable_length = str_len(variable);
 		/* Allocate memory for the copy of the current environment variable */
 		env_copy[i] = malloc(sizeof(char) * variable_length + 1);
 		if (env_copy[i] == NULL)
 		{
-			write(STDERR_FILENO, ERR_MALLOC, strlen(ERR_MALLOC));
+			errors(3);
 			return (NULL);
 		}
 		/* Copy the original environment variable to the copy */
-		strcpy(env_copy[i], environ[i]);
+		str_cpy(env_copy[i], environ[i]);
 		i++;
 	}
 	/* Return the copy of environment variables */
 	return (env_copy);
-}
-
-/**
- * free_dp - This function is responsible for freeing a double pointer (array)
- * and the memoryoccupied by the strings it points to.
- * The function uses for loop to iterate each element of the double pointer.
- * It uses the free function to release the memory occupied by the strings
- * pointed to by the double pointer.
- * Finally, it frees the memory occupied by the double pointer
- * itself using free(array).
- * @array: Double pointer to free.
- * @length: Length of the double pointer.
- * Return: void
- */
-void free_dp(char **array, unsigned int length)
-{
-	unsigned int i;
-	/* Loop through each element of the double pointer */
-	for (i = 0; i < length; i++)
-	{
-		/* Free the memory occupied by the strings pointed to by double pointer */
-		free(array[i]);
-	}
-	/* Free the memory occupied by the double pointer itself*/
-	free(array);
 }

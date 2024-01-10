@@ -26,32 +26,28 @@
  * and fullpath if it was dynamically allocated.
  * Return Status: The loop continues until the user requests to exit the shell.
  * The program returns 0 on successful completion.
- * @ac: the count of arguments
- * @argv: the array of arguments
  * Return: 0 on success
  */
 
-int main(int ac, char **argv)
+int main(void)
 {
-	char *line, *fullpath;
+	char *line, *path, *fullpath;
 	char **tokens;
-	int flag = 0, idx = 0, status = 0;
-	int child_status;
+	int flag = 0; /* 0 if fullpath is not malloc'd, 1 otherwise */
+	int builtin_status, child_status;
 	struct stat buf;
-	(void) ac;
 	/* Main shell loop */
-	while (1)
+	while (TRUE)
 	{
 		/* Display the shell prompt and get user input */
 		prompt(STDIN_FILENO, buf);
 		line = get_line(stdin);
 		/* Check if the input line is empty (just Enter) */
-		if (strcmp(line, "\n") == 0)
+		if (str_cmp(line, "\n", 1) == 0)
 		{
 			free(line);
 			continue; /* Skip to the next iteration if the line is empty */
 		}
-		idx++;
 		/* Tokenize the input line into individual commands and arguments */
 		tokens = tokenizer(line);
 		/* If the first token is NULL, meaning an empty line, */
@@ -61,11 +57,26 @@ int main(int ac, char **argv)
 			free(tokens);
 			continue;
 		}
-
-		if (is_builtin(tokens[0]))
-			handle_builtin(tokens, argv, &status, idx);
+		/* Execute built-in commands (e.g., exit) or continue */
+		/*to external command execution */
+		builtin_status = buiilt_in_execu(tokens);
+		/* Free memory allocated for tokens input line if necessary */
+		if (builtin_status == 0 || builtin_status == -1)
+		{
+			free(tokens);
+			free(line);
+		}
+		/* If built-in command was successful or user reques exit */
+		/* continue to the next iteration */
+		if (builtin_status == 0)
+			continue;
+		/* If the user requested exit, terminate the shell */
+		if (builtin_status == -1)
+			_exit(EXIT_SUCCESS);
+		/* Get the value of the PATH environment variable */
+		path = get_env("PATH");
 		/* Determine the full path of the command to be executed */
-		fullpath = which_path(tokens[0]);
+		fullpath = which_path(tokens[0], fullpath, path);
 		/* If fullpath is NULL, use the entered command as is */
 		if (fullpath == NULL)
 			fullpath = tokens[0];
@@ -75,37 +86,11 @@ int main(int ac, char **argv)
 		child_status = child(fullpath, tokens);
 		/* Display an error if the child process fails to execute */
 		if (child_status == -1)
-			perror("Error");
+			errors(2);
 		/* Free allocated memory for tokens, the PATH variable, the */
 		/* input line, and fullpath if it was dynamically allocated */
-		free_all(tokens, line, fullpath, flag);
+		free_all(tokens, path, line, fullpath, flag);
 	}
 	/* Return 0 on successful completion */
 	return (0);
-}
-
-
-/**
- * free_all - This function is designed to free dynamically allocated memory
- * atthe end of the main loop in your shell program.
- * The function uses the free function to release the memory occupied
- * by each dynamically allocated variable.
- * It checks whether fullpath was dynamically allocated
- * (flag == 1) before attempting to free it.
- * @tokens: Pointer to tokens array.
- * @path: Pointer to path variable.
- * @line: Pointer to user input buffer.
- * @fullpath: Pointer to full path.
- * @flag: Flag marking if full_path was malloc'd.
- * Return: void
- */
-void free_all(char **tokens, char *line, char *fullpath, int flag)
-{
-	/* Free dynamically allocated tokens array */
-	free(tokens);
-	/* Free dynamically allocated user input buffer */
-	free(line);
-	/* Check if fullpath was dynamically allocated before freeing */
-	if (flag == 1)
-		free(fullpath);
 }

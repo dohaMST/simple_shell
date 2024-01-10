@@ -22,7 +22,7 @@ char **tokenizer(char *str)
 	tokens = malloc(sizeof(char) * BUFFER);
 	if (tokens == NULL)
 	{
-		write(STDERR_FILENO, ERR_MALLOC, strlen(ERR_MALLOC));
+		errors(3); /* Print error message and exit memory allocation */
 		exit(EXIT_FAILURE);
 	}
 	/* strtok to extract tokens fro input str on delimiters("\n\t\r ") */
