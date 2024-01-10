@@ -16,7 +16,8 @@ int execute_handler(char **cmd, char **argv, int idx)
 	int status;           /* Status of the child process */
 
 	/* Get the full path of the command */
-	full_cmd = getpath_handler(cmd[0]);
+	/*full_cmd = getpath_handler(cmd[0]);*/
+	full_cmd = which_path(cmd[0]);
 
 	/* Check if the command exists */
 	if (!full_cmd)
