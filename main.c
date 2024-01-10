@@ -1,59 +1,111 @@
 #include "shell.h"
 
 /**
- * main - a main function for simple shell project
+ * main - The program enters a continuous loop that
+ * represents the main shell execution.
+ * Prompt and User Input: prompt(STDIN_FILENO, buf): Displays the shell prompt
+ * if in interactive mode.
+ * line = get_line(stdin): Reads a line of input from the user.
+ * Check for Empty Input: Checks if the entered line is empty (contains only
+ * a newline character).If so, skips to the next iteration.
+ * Tokenization: tokens = tokenizer(line): Tokenizes the input line into
+ * individual commands and arguments.
+ * Execute Built-in Commands: builtin_status = buiilt_in_execu(tokens):
+ * Checks and executes built-in commands such as "exit" or "env."
+ * If a built-in command was successful or the user requested exit, free
+ * allocated memory and continue to the next iteration.
+ * Get PATH Environment Variable: path = get_env("PATH"): Retrieves the value
+ * of the PATH environment variable.
+ * Determine Full Path: fullpath = which_path(tokens[0], fullpath, path):
+ *Determines the full path of the command to be executed.
+ * Execute Command in Child Process: child_status = child(fullpath, tokens):
+ * Executes the command in a child process.
+ * Error Handling: Displays an error if the child process fails to execute.
+ * Free Allocated Memory: free_all(tokens, path, line, fullpath, flag):
+ * Frees the memory allocated for tokens, the PATH variable, the input line,
+ * and fullpath if it was dynamically allocated.
+ * Return Status: The loop continues until the user requests to exit the shell.
+ * The program returns 0 on successful completion.
  * @ac: the count of arguments
  * @argv: the array of arguments
- * Return: 0 for success
+ * Return: 0 on success
  */
 
 int main(int ac, char **argv)
 {
-	char *line = NULL;
-	char **cmd = NULL;
-	int status = 0, idx = 0;
+	char *line, *fullpath;
+	char **tokens;
+	int flag = 0, idx = 0, status = 0;
+	int child_status;
+	struct stat buf;
 	(void) ac;
-
+	/* Main shell loop */
 	while (1)
 	{
-		line = read_line();
-		if (line == NULL)/*reached the EOF ctr+D*/
-		{
-			if (isatty(STDIN_FILENO))
-				write(STDOUT_FILENO, "\n", 1);
-			return (status);
-		}
-		idx++;
-		/*added*/
+		/* Display the shell prompt and get user input */
+		prompt(STDIN_FILENO, buf);
+		line = get_line(stdin);
+		/* Check if the input line is empty (just Enter) */
 		if (strcmp(line, "\n") == 0)
 		{
 			free(line);
-			continue;
+			continue; /* Skip to the next iteration if the line is empty */
 		}
-		/*idx++;*/
-		/*cmd = arrOfCmd(line);*/
-		cmd = tokenizer(line);
-		/*added*/
-		if (cmd[0] == NULL)
+		idx++;
+		/* Tokenize the input line into individual commands and arguments */
+		tokens = tokenizer(line);
+		/* If the first token is NULL, meaning an empty line, */
+		/* skip to next iteration */
+		if (tokens[0] == NULL)
 		{
-			free(cmd);
+			free(tokens);
 			continue;
 		}
-		if (!cmd)
-			continue;
 
-		if (is_builtin(cmd[0]))
-			handle_builtin(cmd, argv, &status, idx);
+		if (is_builtin(tokens[0]))
+			handle_builtin(tokens, argv, &status, idx);
+		/* Determine the full path of the command to be executed */
+		fullpath = which_path(tokens[0]);
+		/* If fullpath is NULL, use the entered command as is */
+		if (fullpath == NULL)
+			fullpath = tokens[0];
 		else
-		{
-			status = execute_handler(cmd, argv, idx);
-			if (status == -1)
-			{
-				perror("Error");
-			}
-		}
+			flag = 1; /* flag to 1 indicat fullpath was allocat */
+		/* Execute the command in a child process */
+		child_status = child(fullpath, tokens);
+		/* Display an error if the child process fails to execute */
+		if (child_status == -1)
+			perror("Error");
+		/* Free allocated memory for tokens, the PATH variable, the */
+		/* input line, and fullpath if it was dynamically allocated */
+		free_all(tokens, line, fullpath, flag);
 	}
-
-
+	/* Return 0 on successful completion */
 	return (0);
+}
+
+
+/**
+ * free_all - This function is designed to free dynamically allocated memory
+ * atthe end of the main loop in your shell program.
+ * The function uses the free function to release the memory occupied
+ * by each dynamically allocated variable.
+ * It checks whether fullpath was dynamically allocated
+ * (flag == 1) before attempting to free it.
+ * @tokens: Pointer to tokens array.
+ * @path: Pointer to path variable.
+ * @line: Pointer to user input buffer.
+ * @fullpath: Pointer to full path.
+ * @flag: Flag marking if full_path was malloc'd.
+ * Return: void
+ */
+void free_all(char **tokens, char *line, char *fullpath, int flag)
+{
+	/* Free dynamically allocated tokens array */
+	free(tokens);
+	/* Free dynamically allocated user input buffer */
+	free(line);
+	/* Check if fullpath was dynamically allocated before freeing */
+	if (flag == 1)
+		free(fullpath);
 }

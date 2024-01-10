@@ -24,10 +24,15 @@ char *get_env(const char *name);
 void free_dp(char **array, unsigned int length);
 char *which_path(char *command);
 char **tokenizer(char *str);
-
+void free_all(char **tokens, char *line, char *fullpath, int flag);
+void prompt(int fd, struct stat buf);
+void _puts(char *str);
+int child(char *fullpath, char **tokens);
+char *get_line(FILE *fp);
+#define PROMPT "$ "
 
 /*handle_cmd.c*/
-void _puts(char *str);
+/*void _puts(char *str);*/
 char *read_line(void);
 
 /*string_tools.c*/

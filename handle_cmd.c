@@ -4,7 +4,7 @@
  * @str: String to print.
  */
 
-void _puts(char *str)
+void _puts2(char *str)
 {
 	unsigned int len;
 
@@ -26,7 +26,7 @@ char *read_line(void)
 	if (isatty(STDIN_FILENO))
 	{
 		/* write(STDOUT_FILENO, "$ ", 2);*/
-		_puts("$ ");
+		_puts2("$ ");
 	}
 	i = getline(&cmd, &len, stdin);
 
