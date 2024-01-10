@@ -26,7 +26,7 @@ char *which_path(char *command)
 	path_copy = malloc(sizeof(char) * orig_pa_length + 1);
 	if (path_copy == NULL)
 	{
-		write(STDERR_FILENO, ERR_MALLOC, str_len(ERR_MALLOC));
+		write(STDERR_FILENO, ERR_MALLOC, strlen(ERR_MALLOC));
 		return (NULL);
 	}
 	/* Copy the PATH variable to path_copy */
