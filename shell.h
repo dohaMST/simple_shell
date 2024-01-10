@@ -17,6 +17,7 @@ extern char **ENVR;
 /*added*/
 #define ERR_MALLOC "Unable to malloc space\n"
 #define ERR_FORK "Unable to fork and create child process\n"
+#define BUFFER 1024
 
 
 /*handle_cmd.c*/

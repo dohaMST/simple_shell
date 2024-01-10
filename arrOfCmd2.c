@@ -23,7 +23,8 @@ char **arrOfCmd(char *line)
 		/*added*/
 		token = strtok(NULL, " \t\n\r");
 	}
-	cmd = malloc(sizeof(char *) * (cpt + 1));
+	/*cmd = malloc(sizeof(char *) * (cpt + 1));*/
+	cmd = malloc(sizeof(char) * BUFFER);
 	if (!cmd)
 	{
 		free(line);
