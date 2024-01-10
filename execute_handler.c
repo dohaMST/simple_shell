@@ -31,7 +31,7 @@ int execute_handler(char **cmd, char **argv, int idx)
 	child = fork();
 	/*added*/
 	if (child == -1)
-        {
+	{
 		write(STDERR_FILENO, ERR_FORK, strlen(ERR_FORK));
 		perror("Error");
 		exit(EXIT_FAILURE);

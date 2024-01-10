@@ -8,7 +8,7 @@
 char *getpath_handler(char *cmd)
 {
 	char *p_env, *full_cmd, *dir;
-	int i;
+	int i, a;
 	struct stat st;
 
 	/* Check if the command is already a path */
@@ -26,9 +26,17 @@ char *getpath_handler(char *cmd)
 		return (NULL);
 	/* Handling PATH - searching through directories */
 	dir = strtok(p_env, ":");
+	/*added*/
+	if (dir == NULL)
+	{
+		dir = strtok(NULL, ":");
+	}
 	while (dir)
 	{
-		full_cmd = malloc(strlen(dir) + strlen_handler(cmd) + 2);
+		/*full_cmd = malloc(strlen(dir) + strlen_handler(cmd) + 2);*/
+		/*added*/
+		a = strlen_handler(dir);
+		full_cmd = malloc(sizeof(char) * (a + strlen_handler(cmd)) + 2);
 		if (full_cmd)
 		{
 			/* Construct the full path by combining directory and command */
@@ -42,6 +50,11 @@ char *getpath_handler(char *cmd)
 			}
 			free(full_cmd), full_cmd = NULL; /* Free memory if not found */
 			dir = strtok(NULL, ":"); /* Move to the next directory in PATH */
+		}
+		else
+		{
+			write(STDERR_FILENO, ERR_MALLOC, strlen(ERR_MALLOC));
+			return (NULL);
 		}
 	}
 	free(p_env);
