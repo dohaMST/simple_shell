@@ -18,6 +18,11 @@ extern char **ENVR;
 #define ERR_MALLOC "Unable to malloc space\n"
 #define ERR_FORK "Unable to fork and create child process\n"
 #define BUFFER 1024
+char **copy_env(char **env_copy, unsigned int env_length);
+char *get_env(const char *name);
+#define ERR_PATH "No such file or directory\n"
+void free_dp(char **array, unsigned int length);
+
 
 
 /*handle_cmd.c*/
