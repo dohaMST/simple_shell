@@ -34,6 +34,8 @@ char *read_line(void)
 	{
 		free(cmd);
 		return (NULL);
+		/*recently added*/
+		/*exit(EXIT_SUCCESS);*/
 	}
 	return (cmd);
 }

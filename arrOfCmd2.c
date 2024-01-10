@@ -8,7 +8,9 @@
 char **arrOfCmd(char *line)
 {
 	char **cmd = NULL;
-	char *token = strtok(strdup_handler(line), " \t\n");
+	/*added*/
+	char *token = strtok(strdup(line), "\n\t\r ");
+	/*char *token = strtok(strdup_handler(line), " \t\n");*/
 	int cpt = 0, i = 0;
 
 	if (!line)
@@ -17,20 +19,27 @@ char **arrOfCmd(char *line)
 	while (token)
 	{
 		cpt++;
-		token = strtok(NULL, " \t\n");
+		/*token = strtok(NULL, " \t\n");*/
+		/*added*/
+		token = strtok(NULL, " \t\n\r");
 	}
 	cmd = malloc(sizeof(char *) * (cpt + 1));
 	if (!cmd)
 	{
 		free(line);
-		return (NULL);
+		/*return (NULL);*/
+		/*added*/
+		write(STDERR_FILENO, ERR_MALLOC, strlen(ERR_MALLOC));
+		exit(EXIT_FAILURE);
 	}
 	i = 0;
-	token = strtok(line, " \t\n");
+	/*token = strtok(line, " \t\n");*/
+	token = strtok(line, "\n\t\r ");
 	while (token)
 	{
 		cmd[i++] = strdup_handler(token);
-		token = strtok(NULL, " \t\n");
+		/*token = strtok(NULL, " \t\n");*/
+		token = strtok(NULL, "\n\t\r ");
 	}
 	free(line);
 	cmd[i] = NULL;

@@ -29,7 +29,13 @@ int execute_handler(char **cmd, char **argv, int idx)
 
 	/* Create a child process */
 	child = fork();
-
+	/*added*/
+	if (child == -1)
+        {
+		write(STDERR_FILENO, ERR_FORK, strlen(ERR_FORK));
+		perror("Error");
+		exit(EXIT_FAILURE);
+	}
 	if (child == 0)
 	{
 		/* Child process: execute the command */
@@ -38,15 +44,19 @@ int execute_handler(char **cmd, char **argv, int idx)
 			free(full_cmd);
 			freeArr(cmd);
 			/*exit(EXIT_FAILURE);*/
+			return (-1);
 		}
 	}
 	else
 	{
-		waitpid(child, &status, 0);
+		/*waitpid(child, &status, 0);*/
+		/*added*/
+		wait(&status);
 		freeArr(cmd);
 	}
 
 	/* Return the exit status of the child process*/
-	return (WEXITSTATUS(status));
+	/*return (WEXITSTATUS(status));*/
+	return (0);
 }
 

@@ -13,6 +13,12 @@
 
 extern char **environ;
 extern char **ENVR;
+
+/*added*/
+#define ERR_MALLOC "Unable to malloc space\n"
+#define ERR_FORK "Unable to fork and create child process\n"
+
+
 /*handle_cmd.c*/
 void _puts(char *str);
 char *read_line(void);

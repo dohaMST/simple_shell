@@ -24,15 +24,33 @@ int main(int ac, char **argv)
 			return (status);
 		}
 		idx++;
+		/*added*/
+		if (strcmp(line, "\n") == 0)
+		{
+			free(line);
+			continue;
+		}
+		/*idx++;*/
 		cmd = arrOfCmd(line);
+		/*added*/
+		if (cmd[0] == NULL)
+		{
+			free(cmd);
+			continue;
+		}
 		if (!cmd)
 			continue;
 
 		if (is_builtin(cmd[0]))
 			handle_builtin(cmd, argv, &status, idx);
 		else
+		{
 			status = execute_handler(cmd, argv, idx);
-		write(STDOUT_FILENO, "$\n", 2);
+			if (status == -1)
+			{
+				perror("Error");
+			}
+		}
 	}
 
 
