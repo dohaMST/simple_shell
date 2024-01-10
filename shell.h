@@ -22,7 +22,7 @@ char **copy_env(char **env_copy, unsigned int env_length);
 char *get_env(const char *name);
 #define ERR_PATH "No such file or directory\n"
 void free_dp(char **array, unsigned int length);
-
+char *which_path(char *command);
 
 
 /*handle_cmd.c*/

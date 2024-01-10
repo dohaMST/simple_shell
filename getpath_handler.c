@@ -21,9 +21,9 @@ char *getpath_handler(char *cmd)
 			return (NULL); /* The path is incorrect or doesn't exist */
 		}
 	}
-	/*p_env = getenv_handler("PATH");*/
+	p_env = getenv_handler("PATH");
 	/*added*/
-	p_env = get_env("PATH");
+	/*p_env = get_env("PATH");*/
 	if (!p_env)
 		return (NULL);
 	/* Handling PATH - searching through directories */
