@@ -31,7 +31,8 @@ int main(int ac, char **argv)
 			continue;
 		}
 		/*idx++;*/
-		cmd = arrOfCmd(line);
+		/*cmd = arrOfCmd(line);*/
+		cmd = tokenizer(line);
 		/*added*/
 		if (cmd[0] == NULL)
 		{

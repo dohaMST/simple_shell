@@ -23,6 +23,7 @@ char *get_env(const char *name);
 #define ERR_PATH "No such file or directory\n"
 void free_dp(char **array, unsigned int length);
 char *which_path(char *command);
+char **tokenizer(char *str);
 
 
 /*handle_cmd.c*/
