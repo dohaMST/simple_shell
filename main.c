@@ -26,15 +26,18 @@
  * and fullpath if it was dynamically allocated.
  * Return Status: The loop continues until the user requests to exit the shell.
  * The program returns 0 on successful completion.
+ * @ac: the count of arguments
+ * @argv: the array of arguments
  * Return: 0 on success
  */
 
-int main(void)
+int main(int ac, char **argv)
 {
 	char *line, *path, *fullpath;
 	char **tokens;
-	int flag = 0; /* 0 if fullpath is not malloc'd, 1 otherwise */
-	int builtin_status, child_status;
+	int flag = 0, status = 0, idx = 0; /* 0 if fullpath is not malloc'd, 1 otherwise */
+	int child_status;
+	(void) ac;
 	/*struct stat buf;*/
 	/* Main shell loop */
 	while (TRUE)
@@ -49,6 +52,7 @@ int main(void)
 			free(line);
 			continue; /* Skip to the next iteration if the line is empty */
 		}
+		idx++;
 		/* Tokenize the input line into individual commands and arguments */
 		tokens = tokenizer(line);
 		/* If the first token is NULL, meaning an empty line, */
@@ -60,20 +64,22 @@ int main(void)
 		}
 		/* Execute built-in commands (e.g., exit) or continue */
 		/*to external command execution */
-		builtin_status = buiilt_in_execu(tokens);
+		/*builtin_status = buiilt_in_execu(tokens);*/
 		/* Free memory allocated for tokens input line if necessary */
-		if (builtin_status == 0 || builtin_status == -1)
-		{
-			free(tokens);
-			free(line);
-		}
+		/*if (builtin_status == 0 || builtin_status == -1)*/
+		/*{*/
+		/*	free(tokens);*/
+		/*	free(line);*/
+		/*}*/
 		/* If built-in command was successful or user reques exit */
 		/* continue to the next iteration */
-		if (builtin_status == 0)
-			continue;
+		/*if (builtin_status == 0)*/
+		/*	continue;*/
 		/* If the user requested exit, terminate the shell */
-		if (builtin_status == -1)
-			_exit(EXIT_SUCCESS);
+		/*if (builtin_status == -1)*/
+		/*	_exit(EXIT_SUCCESS);*/
+		if (is_builtin(tokens[0]))
+			handle_builtin(tokens, argv, &status, idx);
 		/* Get the value of the PATH environment variable */
 		path = get_env("PATH");
 		/* Determine the full path of the command to be executed */
