@@ -15,22 +15,24 @@
  * @path: Full PATH variable.
  * Return: Pointer to the full_path of the command.
  */
-char *which_path(char *command, char *fullpath, char *path)
+char *which_path(char *command)
 {
 	/* Length variables */
 	unsigned int com_length, pa_length, orig_pa_length;
-	char *path_copy, *token;  /* String pointers */
-	com_length = str_len(command);
-	orig_pa_length = str_len(path);
+	char *path_copy, *token, *fullpath, *path;
+
+	com_length = strlen(command);
+	path = get_env("PATH");
+	orig_pa_length = strlen(path);
 	/* Allocate memory for a copy of the PATH variable */
 	path_copy = malloc(sizeof(char) * orig_pa_length + 1);
 	if (path_copy == NULL)
 	{
-		errors(3);  /* Print error message return NULL on memory alo */
+		write(STDERR_FILENO, ERR_MALLOC, strlen(ERR_MALLOC));
 		return (NULL);
 	}
 	/* Copy the PATH variable to path_copy */
-	str_cpy(path_copy, path);
+	strcpy(path_copy, path);
 	/* Initialize token using strtok */
 	token = strtok(path_copy, ":");
 	if (token == NULL)
@@ -38,16 +40,17 @@ char *which_path(char *command, char *fullpath, char *path)
 	/* Iterate through directories in the PATH variable */
 	while (token != NULL)
 	{
-		pa_length = str_len(token);
+		pa_length = strlen(token);
 		/* Allocate memory for the full path of the command within */
 		fullpath = malloc(sizeof(char) * (pa_length + com_length) + 2);
 		if (fullpath == NULL)
 		{
-			errors(3);  /* Print  error message and return NULL */
+
+			write(STDERR_FILENO, ERR_MALLOC, strlen(ERR_MALLOC));
 			return (NULL);
 		}
 		/* Construct the full path by concatenating the directory */
-		str_cpy(fullpath, token);
+		strcpy(fullpath, token);
 		fullpath[pa_length] = '/';
 		str_cpy(fullpath + pa_length + 1, command);
 		fullpath[pa_length + com_length + 1] = '\0';
@@ -61,6 +64,7 @@ char *which_path(char *command, char *fullpath, char *path)
 		else
 			break; /* Exit the loop if executable path is found */
 	}
+	free(path);
 	free(path_copy);  /* Free memory allocated for the PATH variable copy */
 	return (fullpath);  /* Return the pointer to the full path of the command */
 }

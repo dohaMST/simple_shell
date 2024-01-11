@@ -14,10 +14,8 @@
  * @flag: Flag marking if full_path was malloc'd.
  * Return: void
  */
-void free_all(char **tokens, char *path, char *line, char *fullpath, int flag)
+void free_all(char **tokens, char *line, char *fullpath, int flag)
 {
-	/*  Free dynamically allocated path variable */
-	free(path);
 	/* Free dynamically allocated tokens array */
 	free(tokens);
 	/* Free dynamically allocated user input buffer */

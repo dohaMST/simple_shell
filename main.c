@@ -33,7 +33,7 @@
 
 int main(int ac, char **argv)
 {
-	char *line, *path, *fullpath;
+	char *line, *fullpath;
 	char **tokens;
 	int flag = 0, status = 0, idx = 0; /* 0 if fullpath is not malloc'd, 1 otherwise */
 	int child_status;
@@ -60,10 +60,9 @@ int main(int ac, char **argv)
 		/* handle builtins commands */
 		if (is_builtin(tokens[0]))
 			handle_builtin(tokens, argv, &status, idx);
-		/* Get the value of the PATH environment variable */
-		path = get_env("PATH");
-		/* Determine the full path of the command to be executed */
-		fullpath = which_path(tokens[0], fullpath, path);
+
+
+		fullpath = which_path(tokens[0]);
 		/* If fullpath is NULL, use the entered command as is */
 		if (fullpath == NULL)
 			fullpath = tokens[0];
@@ -76,7 +75,7 @@ int main(int ac, char **argv)
 			errors(2);
 		/* Free allocated memory for tokens, the PATH variable, the */
 		/* input line, and fullpath if it was dynamically allocated */
-		free_all(tokens, path, line, fullpath, flag);
+		free_all(tokens, line, fullpath, flag);
 	}
 	/* Return 0 on successful completion */
 	return (0);
