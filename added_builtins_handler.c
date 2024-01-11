@@ -99,7 +99,6 @@ void cd_builtin(char **cmd, int *status)
 void handle_printenv(char **cmd, int *status)
 {
 	unsigned int i = 0;
-	(void)cmd;
 	(void)status;
 
 	/* Loop through the environment variables and print them */
@@ -111,7 +110,7 @@ void handle_printenv(char **cmd, int *status)
 		_puts("\n");
 		i++;
 	}
-
+	freeArr(cmd);
 	/* Set the exit status to 0 (success) */
 	(*status) = 0;
 }
