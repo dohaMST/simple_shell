@@ -16,12 +16,6 @@ char **arrOfCmd(char *line)
 		return (NULL);
 	tmp = strdup(line);
 	token = strtok(tmp, " \t\n");
-	if (token == NULL)
-	{
-		free(tmp), tmp = NULL;
-		free(line), line = NULL;
-		return (NULL);
-	}
 
 	while (token)
 	{
@@ -44,7 +38,6 @@ char **arrOfCmd(char *line)
 		token = strtok(NULL, " \t\n");
 		i++;
 	}
-	free(line), line = NULL;
 	cmd[i] = NULL;
 	return (cmd);
 }
