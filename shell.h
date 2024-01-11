@@ -49,25 +49,17 @@ char *which_path(char *command, char *fullpath, char *path);
 int child(char *fullpath, char **tokens);
 void errors(int error);
 
-/* utility functions */
 void _puts(char *str);
 int str_len(char *s);
 int str_cmp(char *name, char *variable, unsigned int length);
 int str_ncmp(char *name, char *variable, unsigned int length);
 char *str_cpy(char *dest, char *src);
 
-/* prototypes for builtins */
-int shell_env(void);
-int shell_exit(void);
-int buiilt_in_execu(char **tokens);
-int shell_no_builtins(built_s builtin[]);
 
-/* prototypes for the helper functions for path linked list */
 char *get_env(const char *name);
 char **copy_env(char **environ_copy, unsigned int environ_length);
 list_s *pathlist(char *variable, list_s *head);
 
-/* prototypes for free functions */
 void free_all(char **tokens, char *path, char *line, char *fullpath, int flag);
 void free_dp(char **array, unsigned int length);
 
