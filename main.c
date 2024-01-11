@@ -40,44 +40,24 @@ int main(int ac, char **argv)
 	(void) ac;
 	/*struct stat buf;*/
 	/* Main shell loop */
-	while (TRUE)
+	while (1)
 	{
-		/* Display the shell prompt and get user input */
-		/*prompt(STDIN_FILENO, buf);*/
-		/*line = get_line(stdin);*/
 		line = read_line();
-		/* Check if the input line is empty (just Enter) */
+		/* Check if the line is \n */
 		if (str_cmp(line, "\n", 1) == 0)
 		{
 			free(line);
-			continue; /* Skip to the next iteration if the line is empty */
+			continue;
 		}
 		idx++;
-		/* Tokenize the input line into individual commands and arguments */
-		tokens = tokenizer(line);
-		/* If the first token is NULL, meaning an empty line, */
-		/* skip to next iteration */
+		/* handle tokens */
+		tokens = arrOfCmd_handler(line);
 		if (tokens[0] == NULL)
 		{
 			free(tokens);
 			continue;
 		}
-		/* Execute built-in commands (e.g., exit) or continue */
-		/*to external command execution */
-		/*builtin_status = buiilt_in_execu(tokens);*/
-		/* Free memory allocated for tokens input line if necessary */
-		/*if (builtin_status == 0 || builtin_status == -1)*/
-		/*{*/
-		/*	free(tokens);*/
-		/*	free(line);*/
-		/*}*/
-		/* If built-in command was successful or user reques exit */
-		/* continue to the next iteration */
-		/*if (builtin_status == 0)*/
-		/*	continue;*/
-		/* If the user requested exit, terminate the shell */
-		/*if (builtin_status == -1)*/
-		/*	_exit(EXIT_SUCCESS);*/
+		/* handle builtins commands */
 		if (is_builtin(tokens[0]))
 			handle_builtin(tokens, argv, &status, idx);
 		/* Get the value of the PATH environment variable */
