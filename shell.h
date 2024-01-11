@@ -45,9 +45,9 @@ typedef struct built_s
 } built_s;
 
 char **arrOfCmd_handler(char *str);
-char *which_path(char *command);
 int child(char *fullpath, char **tokens);
 void errors(int error);
+char *handle_path(char *cmd);
 
 void _puts(char *str);
 int str_len(char *s);

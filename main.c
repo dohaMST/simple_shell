@@ -62,7 +62,7 @@ int main(int ac, char **argv)
 			handle_builtin(tokens, argv, &status, idx);
 
 
-		fullpath = which_path(tokens[0]);
+		fullpath = handle_path(tokens[0]);
 		/* If fullpath is NULL, use the entered command as is */
 		if (fullpath == NULL)
 			fullpath = tokens[0];
