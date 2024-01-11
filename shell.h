@@ -75,6 +75,7 @@ void free_dp(char **array, unsigned int length);
 
 
 char *read_line(void);
+char **arrOfCmd(char *line);
 
 
 #endif /* SHELL_H */
