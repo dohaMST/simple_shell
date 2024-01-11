@@ -14,7 +14,7 @@ char **arrOfCmd_handler(char *line)
 	cmd = malloc(sizeof(char) * BUFFER);
 	if (cmd == NULL)
 	{
-		errors(3);
+		write(STDERR_FILENO, ERR_MALLOC, str_len(ERR_MALLOC));
 		exit(EXIT_FAILURE);
 	}
 	/* extract tokens by strtok*/
