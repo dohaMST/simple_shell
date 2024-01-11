@@ -8,26 +8,17 @@
 
 char **arrOfCmd(char *line)
 {
-	char *token = NULL, *tmp = NULL;
-	char **cmd =NULL;
-	int cpt = 0, i = 0;
+	char *token;
+	char **cmd;
+	unsigned int i = 0;
 
-	if (!line)
-		return (NULL);
-	tmp = strdup(line);
-	token = strtok(tmp, "\n\t\r ");
-	while (token)
-	{
-		cpt++;
-		token = strtok(NULL, "\n\t\r ");
-	}
-	free(tmp), tmp = NULL;
-	cmd = malloc(sizeof(char *) * (cpt + 1));
+	token = strtok(line, "\n\t\r ");
+	cmd = malloc(sizeof(char) * BUFFER);
 
 	if(!cmd)
 	{
-		free(line), line = NULL;
-		return (NULL);
+		write(STDERR_FILENO, ERR_MALLOC, str_len(ERR_MALLOC));
+		exit(EXIT_FAILURE);
 	}
 
 	token = strtok(line, "\n\t\r ");

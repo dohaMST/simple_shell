@@ -50,7 +50,7 @@ int main(void)
 			continue; /* Skip to the next iteration if the line is empty */
 		}
 		/* Tokenize the input line into individual commands and arguments */
-		tokens = arrOfCmd(line);
+		tokens = tokenizer(line);
 		/* If the first token is NULL, meaning an empty line, */
 		/* skip to next iteration */
 		if (tokens[0] == NULL)
