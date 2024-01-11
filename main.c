@@ -35,13 +35,14 @@ int main(void)
 	char **tokens;
 	int flag = 0; /* 0 if fullpath is not malloc'd, 1 otherwise */
 	int builtin_status, child_status;
-	struct stat buf;
+	/*struct stat buf;*/
 	/* Main shell loop */
 	while (TRUE)
 	{
 		/* Display the shell prompt and get user input */
-		prompt(STDIN_FILENO, buf);
-		line = get_line(stdin);
+		/*prompt(STDIN_FILENO, buf);*/
+		/*line = get_line(stdin);*/
+		line = read_line();
 		/* Check if the input line is empty (just Enter) */
 		if (str_cmp(line, "\n", 1) == 0)
 		{
