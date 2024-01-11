@@ -15,12 +15,11 @@ char **arrOfCmd(char *line)
 	if (!line)
 		return (NULL);
 	tmp = strdup(line);
-	token = strtok(tmp, " \t\n");
-
+	token = strtok(tmp, "\n\t\r ");
 	while (token)
 	{
 		cpt++;
-		token = strtok(NULL, " \t\n");
+		token = strtok(NULL, "\n\t\r ");
 	}
 	free(tmp), tmp = NULL;
 	cmd = malloc(sizeof(char *) * (cpt + 1));
@@ -31,11 +30,11 @@ char **arrOfCmd(char *line)
 		return (NULL);
 	}
 
-	token = strtok(line, " \t\n");
+	token = strtok(line, "\n\t\r ");
 	while (token)
 	{
 		cmd[i] = strdup(token);
-		token = strtok(NULL, " \t\n");
+		token = strtok(NULL, "\n\t\r ");
 		i++;
 	}
 	cmd[i] = NULL;
