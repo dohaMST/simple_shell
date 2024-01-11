@@ -36,7 +36,7 @@ int main(int ac, char **argv)
 	char *line, *path, *fullpath;
 	char **tokens;
 	int flag = 0, status = 0, idx = 0; /* 0 if fullpath is not malloc'd, 1 otherwise */
-	int child_status;
+	int child_status, x;
 	(void) ac;
 	/*struct stat buf;*/
 	/* Main shell loop */
@@ -78,6 +78,16 @@ int main(int ac, char **argv)
 		/* If the user requested exit, terminate the shell */
 		/*if (builtin_status == -1)*/
 		/*	_exit(EXIT_SUCCESS);*/
+		x = is_builtin(tokens[0]);
+		if (x == 0 || x == -1)
+		{
+			free(tokens);
+			free(line);
+		}
+		if (x == 0)
+			continue;
+		if (x == -1)
+			_exit(EXIT_SUCCESS);
 		if (is_builtin(tokens[0]))
 			handle_builtin(tokens, argv, &status, idx);
 		/* Get the value of the PATH environment variable */

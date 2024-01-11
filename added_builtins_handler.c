@@ -98,21 +98,20 @@ void cd_builtin(char **cmd, int *status)
 
 void handle_printenv(char **cmd, int *status)
 {
-
-	char **env_ptr = environ;
+	unsigned int i = 0;
+	(void)cmd;
 	(void)status;
 
 	/* Loop through the environment variables and print them */
-	while (*env_ptr)
+	while (environ[i])
 	{
 		/* write(STDOUT_FILENO, *env_ptr, strlen(*env_ptr)); */
-		_puts(*env_ptr);
+		_puts(environ[i]);
 		/* write(STDOUT_FILENO, "\n", 1); */
 		_puts("\n");
-		env_ptr++;
+		i++;
 	}
 
-	freeArr(cmd);
 	/* Set the exit status to 0 (success) */
 	(*status) = 0;
 }
