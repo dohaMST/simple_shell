@@ -48,7 +48,7 @@ int main(int ac, char **argv)
 			x = 1; /*to ckeck if full path was allocated or not */
 
 		/* Execute the command in a child process */
-		child_status = child(fullpath, tokens);
+		child_status = execute_handler(fullpath, tokens);
 		/* Display an error if the child process fails to execute */
 		/*added / changed -1 to 0 */
 		if (child_status == -1)
