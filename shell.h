@@ -68,7 +68,8 @@ char *read_line(void);
 char **arrOfCmd(char *line);
 void handle_printenv(char **cmd, int *status);
 void cd_builtin(char **cmd, int *status);
-void exitshell_handler(char **cmd, int *sts);
+/*void exitshell_handler(char **cmd, int *sts);*/
+int exitshell_handler(char **cmd, int *sts);
 void handle_builtin(char **cmd, char **argv, int *status, int index);
 int is_builtin(char *cmd);
 void freeArr(char **arr);
@@ -77,4 +78,6 @@ char *handle_itoa(int x);
 void revstr_handler(char *str, int len);
 void _puts(char *str);
 
+
+int handle_itoa2(char *s);
 #endif /* SHELL_H */

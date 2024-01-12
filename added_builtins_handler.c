@@ -54,14 +54,92 @@ void handle_builtin(char **cmd, char **argv, int *status, int index)
  * Return: void
  */
 
-void exitshell_handler(char **cmd, int *sts)
+int exitshell_handler(char **cmd, int *sts)
 {
-	/* Free the memory allocated for the array of command and arguments */
-	freeArr(cmd);
-	/* Exit the shell program with the provided status */
-	exit(*sts);
+	int i, exit_sts = 0, valid = 1, size;
+
+	if (!cmd[1])
+	{
+		/* Free the memory allocated for the array of command and arguments */
+		freeArr(cmd);
+		/* Exit the shell program with the provided status */
+		exit(*sts);
+	}
+	else
+	{
+		size = (int)strlen(cmd[1]);
+		/*check the validity of status*/
+		if (cmd[1][0] == '-')
+			valid = 0;
+		for (i = 0; i < size; i++)
+		{
+			if (!(cmd[1][i] >= '0' && cmd[1][i] <= '9'))
+			{
+				valid = 0;
+				break;
+			}
+		}
+		if (valid)
+		{
+			exit_sts = handle_itoa2(cmd[1]);
+			freeArr(cmd);
+			exit(exit_sts);
+		}
+		else
+		{
+		/*	print_err();*/
+			freeArr(cmd);
+		}
+
+	}
+	return (exit_sts);
 }
 
+
+/**
+ * handle_itoa2 - converts a string to an integer
+ * @s: string to be converted
+ *
+ * Return: the int converted from the string
+ */
+int handle_itoa2(char *s)
+{
+	int i, d, n, len, f, digit;
+
+	i = 0;
+	d = 0;
+	n = 0;
+	len = 0;
+	f = 0;
+	digit = 0;
+
+	while (s[len] != '\0')
+		len++;
+
+	while (i < len && f == 0)
+	{
+		if (s[i] == '-')
+			++d;
+
+		if (s[i] >= '0' && s[i] <= '9')
+		{
+			digit = s[i] - '0';
+			if (d % 2)
+				digit = -digit;
+			n = n * 10 + digit;
+			f = 1;
+			if (s[i + 1] < '0' || s[i + 1] > '9')
+				break;
+			f = 0;
+		}
+		i++;
+	}
+
+	if (f == 0)
+		return (0);
+
+	return (n);
+}
 
 /**
  * cd_builtin - a function to handle the "cd" cmd
