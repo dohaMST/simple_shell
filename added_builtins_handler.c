@@ -10,7 +10,7 @@ int is_builtin(char *cmd)
 	char *builtins[] = {
 		"exit", "env", 
 	};
-	char *copy_line;
+	char *line_copy;
 	int i;
 
 	line_copy = strdup(cmd);
