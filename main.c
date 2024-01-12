@@ -49,6 +49,7 @@ int main(int ac, char **argv)
 		/* Execute the command in a child process */
 		child_status = child(fullpath, tokens);
 		/* Display an error if the child process fails to execute */
+		/*added / changed -1 to 0 */
 		if (child_status == -1)
 			errors(2);
 		/* Free allocated memory for tokens, the PATH variable, the */
