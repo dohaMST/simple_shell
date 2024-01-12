@@ -10,7 +10,7 @@
 int main(int ac, char **argv)
 {
 	char *line, *fullpath;
-	char **tokens;
+	char **tokens, **cmd_args;
 	int status = 0, idx = 0, x = 0;
 	int child_status;
 	(void) ac;
@@ -47,8 +47,11 @@ int main(int ac, char **argv)
 		else
 			x = 1; /*to ckeck if full path was allocated or not */
 
+		/*added*/
+		cmd_args = handle_args(tokens);
 		/* handle the execution of command */
-		child_status = execute_handler(fullpath, tokens);
+		/*edited tokens to cmd_args*/
+		child_status = execute_handler(fullpath, cmd_args);
 		/* handle the errors if the execution fails */
 		/*added / changed -1 to 0 */
 		if (child_status == -1)
