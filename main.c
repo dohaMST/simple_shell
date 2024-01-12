@@ -28,7 +28,7 @@ int main(int ac, char **argv)
 		idx++;
 		/* handle tokens */
 		tokens = arrOfCmd_handler(line);
-		if (tokens[0] == NULL)
+		if (tokens[0] == NULL || tokens[0][0] == '#')
 		{
 			free(tokens);
 			continue;
