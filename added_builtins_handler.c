@@ -61,7 +61,7 @@ int exitshell_handler(char **cmd, int *sts)
 	if (!cmd[1])
 	{
 		/* Free the memory allocated for the array of command and arguments */
-		freeArr(cmd);
+		/*freeArr(cmd);*/
 		/* Exit the shell program with the provided status */
 		exit(*sts);
 	}
