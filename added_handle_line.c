@@ -20,8 +20,8 @@ char *read_line(void)
         if (i == -1)
         {
                 free(cmd);
-
-                exit(EXIT_SUCCESS);
+		return (NULL);
+        /*        exit(EXIT_SUCCESS);*/
         }
         return (cmd);
 }

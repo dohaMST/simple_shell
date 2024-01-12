@@ -43,6 +43,13 @@ int main(int ac, char **argv)
 	while (1)
 	{
 		line = read_line();
+		/*added*/
+		if (line == NULL)/*reached the EOF ctr+D*/
+		{
+			if (isatty(STDIN_FILENO))
+				write(STDOUT_FILENO, "\n", 1);
+			return (status);
+		}
 		/* Check if the line is \n */
 		if (str_cmp(line, "\n", 1) == 0)
 		{
