@@ -1,42 +1,28 @@
 #include "shell.h"
+
 /**
- * print_environment - Function that ptint env command
- *
- * Return: .
-*/
-
-
-void print_environment(void)
-{
-	char **env_var = environ;
-	int length;
-
-	while ((*env_var))
-	{
-		length = (int)strlen(*env_var);
-		write(1, *env_var, length);
-		write(1, "\n", 1);
-		env_var++;
-	}
-}
-/**
- * _get_envi_value - Function that get the value of a variable.
- * @name: Variable name.
- * Return: The value of the variable.
+ * shell_env - Prints environment variables.
+ * This function prints the environment variables to the standard output.
+ * It uses the `environ` variable, which is an external variable containing
+ * the environment variables.
+ * The function iterates through the `environ` array and prints each
+ * environment variable followed by a newline character.
+ * Return: The function returns 0.
  */
-char *_get_envi_value(char *name)
+int shell_env(void)
 {
-	unsigned int var;
-	char **environment;
-
-
-	if (name == NULL || name[0] == '\0')
-		return (NULL);
-	var = (unsigned int)strlen(name);
-	for (environment = environ; *environment != NULL; environment++)
+	unsigned int i = 0;
+	/* Iterate through the `environ` array */
+	while (environ[i] != NULL)
 	{
-		if (strncmp(*environment, name, var) == 0 && (*environment)[var] == '=')
-			return (*environment + var + 1);
+		/* Write the current environment variable to the standard output */
+		write(STDOUT_FILENO, environ[i], str_len(environ[i]));
+		/* Write a newline character to separate environment variables */
+		write(STDOUT_FILENO, "\n", 1);
+		/* Move to the next environment variable */
+		i++;
 	}
-	return (NULL);
+
+	/* Return 0 to indicate successful execution */
+	return (0);
 }

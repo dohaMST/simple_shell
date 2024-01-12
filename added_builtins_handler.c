@@ -47,8 +47,8 @@ void handle_builtin(char **cmd, char **argv, int *status, int index)
 	/*Check if the command is "env"*/
 	else if (strcmp(cmd[0], "env") == 0)
 	{
+		shell_env();
 		/*handle_printenv(cmd, status);*/
-		print_environment();
 	}
 	/* checks if the command is "cd" */
 	else if (strcmp(cmd[0], "cd") == 0)
