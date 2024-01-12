@@ -2,50 +2,37 @@
 
 /**
  * free_all - This function is designed to free dynamically allocated memory
- * atthe end of the main loop in your shell program.
- * The function uses the free function to release the memory occupied
- * by each dynamically allocated variable.
- * It checks whether fullpath was dynamically allocated
- * (flag == 1) before attempting to free it.
- * @tokens: Pointer to tokens array.
- * @path: Pointer to path variable.
- * @line: Pointer to user input buffer.
- * @fullpath: Pointer to full path.
- * @flag: Flag marking if full_path was malloc'd.
+ * @tokens: the array of command
+ * @line: the input buffer.
+ * @full_path: full path.
+ * @x: it helps for checking if full_path was allocated
  * Return: void
  */
-void free_all(char **tokens, char *line, char *fullpath, int flag)
+void free_all(char **cmd, char *line, char *full_path, int x)
 {
-	/* Free dynamically allocated tokens array */
-	free(tokens);
-	/* Free dynamically allocated user input buffer */
+	/* free the tokens array */
+	free(cmd);
+	/* free the prompt input */
 	free(line);
-	/* Check if fullpath was dynamically allocated before freeing */
-	if (flag == 1)
-		free(fullpath);
+	/* Checking if full_path was allocated before freeing it */
+	if (x == 1)
+		free(full_path);
 }
 
 /**
  * free_dp - This function is responsible for freeing a double pointer (array)
- * and the memoryoccupied by the strings it points to.
- * The function uses for loop to iterate each element of the double pointer.
- * It uses the free function to release the memory occupied by the strings
- * pointed to by the double pointer.
- * Finally, it frees the memory occupied by the double pointer
- * itself using free(array).
  * @array: Double pointer to free.
  * @length: Length of the double pointer.
  * Return: void
  */
 void free_dp(char **array, unsigned int length)
 {
-	unsigned int i;
-	/* Loop through each element of the double pointer */
-	for (i = 0; i < length; i++)
+	unsigned int a;
+
+	for (a = 0; a < length; a++)
 	{
-		/* Free the memory occupied by the strings pointed to by double pointer */
-		free(array[i]);
+		/* Free the memory alocated */
+		free(array[a]);
 	}
-	/* Free the memory occupied by the double pointer itself*/
 	free(array);
 }

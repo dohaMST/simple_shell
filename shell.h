@@ -60,8 +60,8 @@ char *get_env(const char *name);
 char **copy_env(char **environ_copy, unsigned int environ_length);
 list_s *pathlist(char *variable, list_s *head);
 
-void free_all(char **tokens, char *line, char *fullpath, int flag);
 void free_dp(char **array, unsigned int length);
+void free_all(char **cmd, char *line, char *full_path, int x);
 
 
 char *read_line(void);

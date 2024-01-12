@@ -11,7 +11,7 @@ int main(int ac, char **argv)
 {
 	char *line, *fullpath;
 	char **tokens;
-	int flag = 0, status = 0, idx = 0; /* 0 if fullpath is not malloc'd, 1 otherwise */
+	int status = 0, idx = 0, x = 0;
 	int child_status;
 	(void) ac;
 	/*struct stat buf;*/
@@ -40,12 +40,13 @@ int main(int ac, char **argv)
 			continue;
 		}
 
+		/*handle full path*/
 		fullpath = handle_path(tokens[0]);
-		/* If fullpath is NULL, use the entered command as is */
 		if (fullpath == NULL)
 			fullpath = tokens[0];
 		else
-			flag = 1; /* flag to 1 indicat fullpath was allocat */
+			x = 1; /*to ckeck if full path was allocated or not */
+
 		/* Execute the command in a child process */
 		child_status = child(fullpath, tokens);
 		/* Display an error if the child process fails to execute */
@@ -54,7 +55,7 @@ int main(int ac, char **argv)
 			errors(2);
 		/* Free allocated memory for tokens, the PATH variable, the */
 		/* input line, and fullpath if it was dynamically allocated */
-		free_all(tokens, line, fullpath, flag);
+		free_all(tokens, line, fullpath, x);
 	}
 	/* Return 0 on successful completion */
 	return (0);
