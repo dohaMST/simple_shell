@@ -33,9 +33,6 @@ int main(int ac, char **argv)
 			free(tokens);
 			continue;
 		}
-		/*added*/
-		if (tokens[0][0] == '#')
-			continue;
 		/* handle builtins commands */
 		if (is_builtin(tokens[0]))
 		{
