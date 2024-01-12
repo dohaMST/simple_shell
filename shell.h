@@ -64,5 +64,5 @@ void handle_error(char *name, char *cmd, int i);
 char *handle_itoa(int x);
 void revstr_handler(char *str, int len);
 void _puts(char *str);
-char **handle_args(char **cmd);
+
 #endif /* SHELL_H */
