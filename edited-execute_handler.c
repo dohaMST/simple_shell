@@ -16,7 +16,8 @@ int execute_handler(char *full_path, char **cmd)
 	/*check if the fork fails */
 	if (child_pid == -1)
 	{
-		errors(1);
+		write(STDERR_FILENO, ERR_FORK, strlen(ERR_FORK));
+		perror("Error");
 		exit(EXIT_FAILURE);
 	}
 	/*if the child process do: */
