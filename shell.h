@@ -31,21 +31,8 @@ typedef struct list_s
 	struct list_s *next;
 } list_s;
 
-/**
- * struct built_s - linked list of builtins
- * @name: name of builtin
- * @p: pointer to function
- *
- * Description: struct for builtin functions.
-**/
-typedef struct built_s
-{
-	char *name;
-	int (*p)(void);
-} built_s;
 
 char **arrOfCmd_handler(char *str);
-/*int child(char *fullpath, char **tokens);*/
 int execute_handler(char *full_path, char **cmd);
 void errors(int error);
 char *handle_path(char *cmd);
