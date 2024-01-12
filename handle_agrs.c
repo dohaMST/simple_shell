@@ -28,5 +28,6 @@ char **handle_args(char **cmd)
 		args[i] = cmd[i];
 		i++;
 	}
+	args[i] = NULL;
 	return (args);
 }
