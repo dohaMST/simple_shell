@@ -82,11 +82,12 @@ int exitshell_handler(char **cmd, int *sts)
 		if (valid)
 		{
 			exit_sts = handle_itoa2(cmd[1]);
-			freeArr(cmd);
+		/*	freeArr(cmd);*/
 			exit(exit_sts);
 		}
 		else
 		{
+			*sts = 2;
 		/*	print_err();*/
 			freeArr(cmd);
 		}

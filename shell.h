@@ -80,4 +80,6 @@ void _puts(char *str);
 
 
 int handle_itoa2(char *s);
+/*void print_exit_error(char *program_name, char *command_count_str,*/
+                /*char *input_line);*/
 #endif /* SHELL_H */
