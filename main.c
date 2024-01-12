@@ -47,15 +47,14 @@ int main(int ac, char **argv)
 		else
 			x = 1; /*to ckeck if full path was allocated or not */
 
-		/* Execute the command in a child process */
+		/* handle the execution of command */
 		child_status = execute_handler(fullpath, tokens);
-		/* Display an error if the child process fails to execute */
+		/* handle the errors if the execution fails */
 		/*added / changed -1 to 0 */
 		if (child_status == -1)
-			errors(2);
-		/* Free allocated memory for tokens, the PATH variable, the */
-		/* input line, and fullpath if it was dynamically allocated */
-		free_all(tokens, line, fullpath, x);
+			perror("Error");
+		/* free all the allocated memories */
+		handle_free(tokens, line, fullpath, x);
 	}
 	/* Return 0 on successful completion */
 	return (0);
