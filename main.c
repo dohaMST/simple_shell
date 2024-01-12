@@ -59,8 +59,10 @@ int main(int ac, char **argv)
 		}
 		/* handle builtins commands */
 		if (is_builtin(tokens[0]))
+		{
 			handle_builtin(tokens, argv, &status, idx);
-
+			continue;
+		}
 
 		fullpath = handle_path(tokens[0]);
 		/* If fullpath is NULL, use the entered command as is */
