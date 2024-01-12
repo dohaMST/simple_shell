@@ -8,24 +8,19 @@
 int is_builtin(char *cmd)
 {
 	char *builtins[] = {
-		"exit", "env", 
+		"exit", "env", "setenv", "cd", NULL
 	};
-	char *line_copy;
 	int i;
 
-	line_copy = strdup(cmd);
 	/* Loop through the array of built-in commands */
-	for (i = 0; i < 2; i++)
+	for (i = 0; builtins[i]; i++)
 	{
 		/* Compare the given command with each built-in command*/
 		if (strcmp(cmd, builtins[i]) == 0)
-		{
-			free(line_copy);
-			return (1); /*it exists*/
-		}
+			return (1); /*it doesnt exist*/
 	}
 
-	return (0); /* it doesnt exist */
+	return (0); /* it exists */
 }
        
 
@@ -46,10 +41,7 @@ void handle_builtin(char **cmd, char **argv, int *status, int index)
 		exitshell_handler(cmd, status);
 	/*Check if the command is "env"*/
 	else if (strcmp(cmd[0], "env") == 0)
-	{
-		shell_env();
-		/*handle_printenv(cmd, status);*/
-	}
+		handle_printenv(cmd, status);
 	/* checks if the command is "cd" */
 	else if (strcmp(cmd[0], "cd") == 0)
 		cd_builtin(cmd, status);

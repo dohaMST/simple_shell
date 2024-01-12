@@ -77,7 +77,4 @@ char *handle_itoa(int x);
 void revstr_handler(char *str, int len);
 void _puts(char *str);
 
-
-void print_environment(void);
-int shell_env(void);
 #endif /* SHELL_H */
