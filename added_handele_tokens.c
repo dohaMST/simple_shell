@@ -15,7 +15,7 @@ char **arrOfCmd(char *line)
 	token = strtok(line, "\n\t\r ");
 	cmd = malloc(sizeof(char) * BUFFER);
 
-	if(!cmd)
+	if (!cmd)
 	{
 		write(STDERR_FILENO, ERR_MALLOC, str_len(ERR_MALLOC));
 		exit(EXIT_FAILURE);

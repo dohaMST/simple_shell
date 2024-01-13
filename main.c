@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * main _ the main program for shell prj
+ * main - the main program for shell prj
  * @ac: the count of arguments
  * @argv: the array of arguments
  * Return: 0 on success

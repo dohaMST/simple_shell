@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * arrOfCmd - Function to tokenize a string based on whitespace characters.
+ * arrOfCmd_handler - Function to tokenize a string based on whitespace characters.
  * @line: The string we wanna be tokenized.
  * Return: An array of tokens (strings).
  */

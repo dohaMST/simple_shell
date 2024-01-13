@@ -9,21 +9,23 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+/*defining xxxx*/
+
 #define BUFFER 1024
 #define TRUE 1
 #define PROMPT "$ "
-/* error strings */
+/* strings for handling errors */
+
 #define ERR_MALLOC "Unable to malloc space\n"
 #define ERR_FORK "Unable to fork and create child process\n"
 #define ERR_PATH "No such file or directory\n"
 extern char **environ;
 
 /**
- * struct list_s - linked list of variables
- * @value: value
- * @next: pointer to next node
- *
- * Description: generic linked list struct for variables.
+ * struct list_s - a linked list
+ * @value: the val
+ * @next: points to the next node
+ * Description: a struct for a linked list
 **/
 typedef struct list_s
 {
@@ -65,4 +67,4 @@ char *handle_itoa(int x);
 void revstr_handler(char *str, int len);
 void _puts(char *str);
 
-#endif /* SHELL_H */
+#endif

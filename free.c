@@ -2,7 +2,7 @@
 
 /**
  * handle_free - This function is designed to free dynamically allocated memory
- * @tokens: the array of command
+ * @cmd: the array of command
  * @line: the input buffer.
  * @full_path: full path.
  * @x: it helps for checking if full_path was allocated

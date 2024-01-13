@@ -1,8 +1,13 @@
 #include "shell.h"
 
+/**
+ * freeArr - a function to free a double pointer
+ * @arr: the array we wanna free
+ */
 void freeArr(char **arr)
 {
 	int i;
+
 	if (!arr)
 		return;
 	for (i = 0; arr[i]; i++)
@@ -35,5 +40,5 @@ void handle_error(char *name, char *cmd, int i)
 	write(STDERR_FILENO, msg, strlen(msg));
 
     /* Free the dynamically allocated index string */
-    free(index);
+	free(index);
 }

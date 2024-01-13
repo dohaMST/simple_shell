@@ -22,7 +22,7 @@ int is_builtin(char *cmd)
 
 	return (0); /* it exists */
 }
-       
+
 
 /**
  * handle_builtin - Function to handle execution of built-in commands.
@@ -91,7 +91,7 @@ void cd_builtin(char **cmd, int *status)
 
 
 /**
- * handle_printenv - Function to print environment variables to standard output.
+ * handle_printenv - Function to print environment variables.
  * @cmd: Array of command and arguments.
  * @status: Pointer to the exit status (unused in this function).
  */
