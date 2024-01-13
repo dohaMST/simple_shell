@@ -20,9 +20,9 @@ void handle_free(char **cmd, char *line, char *full_path, int x)
 }
 
 /**
- * free_dp - This function is responsible for freeing a double pointer (array)
- * @array: Double pointer to free.
- * @length: Length of the double pointer.
+ * free_dp - a function to free doublePointer
+ * @array: the array we wanna free
+ * @length: the size of array
  * Return: void
  */
 void free_dp(char **array, unsigned int length)

@@ -1,89 +1,79 @@
 #include "shell.h"
 
 /**
- * str_cmp - Compares two strings (name and variable) character by character up
- * to the specified length (length).
- * Returns 1 if the strings are not equal, -1 if the lengths are different,
- * and 0 if the strings are equal.
- * @name: Name supplied by the user to search for.
- * @variable: Variable to compare against.
- * @length: Length of the name.
- * Return: 1 if strings are equal, -1 if they are not.
+ * str_cmp - a function to compare 2 strings
+ * @str1: string1
+ * @str2: string2
+ * @len: the size of string1
+ * Return: 1 or -1
  */
-int str_cmp(char *name, char *variable, unsigned int length)
+int str_cmp(char *str1, char *str2, unsigned int len)
 {
-	unsigned int var_length;
+	unsigned int var_len;
 	unsigned int i;
-	/* Get the length of the variable string. */
-	var_length = str_len(variable);
-	/* If lengths are not equal, strings can't be the same. */
-	if (var_length != length)
+
+	var_len = str_len(str2);
+	if (var_len != len)
 		return (-1);
 	i = 0;
-	/* Compare characters until a mismatch or end of the strings. */
-	while (name[i] != '\0' && variable[i] != '\0')
+	/* Comparing */
+	while (str1[i] != '\0' && str2[i] != '\0')
 	{
-		if (name[i] != variable[i])
-			return (1); /* Strings are not equal. */
+		if (str1[i] != str2[i])
+			return (1); /* not equal. */
 		i++;
 	}
-	return (0); /* Strings are equal. */
+	return (0); /* equal*/
 }
 
 /**
  * str_ncmp - Compares two strings (name and variable) up to
- * a specified length (length).
- * Returns 1 if the strings are equal up to the specified length,
- * and -1 otherwise.
- * @name: Name supplied by the user to search for.
- * @variable: Variable to compare against.
- * @length: Length to compare up to.
- * Return: 1 if strings are equal, -1 if they are not.
+ * @str1: Name supplied by the user to search for.
+ * @str2: Variable to compare against.
+ * @len: Length to compare up to.
+ * Return: 1 or -1
  */
-int str_ncmp(char *name, char *variable, unsigned int length)
+int str_ncmp(char *str1, char *str2, unsigned int len)
 {
 	unsigned int i;
 
 	i = 0;
 
-	/* Compare characters up to the specified length. */
-	while (i < length)
+	while (i < len)
 	{
-		if (name[i] != variable[i])
-			return (-1); /* Strings are not equal. */
+		if (str1[i] != str2[i])
+			return (-1);
 		i++;
 	}
-	return (1); /* Strings are equal. */
+	return (1);
 }
 
 /**
- * str_cpy - Copies the string pointed to by src to buffer pointed to by dest.
- * Returns the pointer to dest.
- * @dest: String destination.
- * @src: String source.
- * Return: The pointer to dest.
+ * str_cpy - a function to copy a string
+ * @dest: destination.
+ * @src: source.
+ * Return: destination string
  */
 char *str_cpy(char *dest, char *src)
 {
-	int i;
-	int j = str_len(src);
-	/* Copy characters from src to dest. */
-	for (i = 0; i <= j; i++)
-		dest[i] = src[i];
+	int a;
+	int b = str_len(src);
+
+	for (a = 0; a <= b; a++)
+		dest[a] = src[a];
 	return (dest);
 }
 
 /**
- * str_len - Returns the length of the input string s. Counts characters until
- * the null terminator is encountered.
- * @s: String to be evaluated.
- * Return: Length of the string.
+ * str_len - a function to calculate size
+ * @str: String to be calculated
+ * Return: size of string
  */
-int str_len(char *s)
+int str_len(char *str)
 {
-	int i = 0;
-	/* Count characters until the null terminator is encountered. */
-	while (s[i] != '\0')
-		i++;
-	return (i);
+	int a = 0;
+
+	while (str[a] != '\0')
+		a++;
+	return (a);
 }
