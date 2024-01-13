@@ -41,7 +41,7 @@ char *handle_path(char *cmd);
 
 void _puts(char *str);
 int str_len(char *str);
-int str_cmp(char *name, char *variable, unsigned int length);
+int str_cmp(char *str1, char *str2, unsigned int len);
 int str_ncmp(char *str1, char *str2, unsigned int len);
 char *str_cpy(char *dest, char *src);
 
